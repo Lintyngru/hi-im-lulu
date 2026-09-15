@@ -16,3 +16,31 @@ document.getElementById('copy-email')?.addEventListener('click',async()=>{
  try{await navigator.clipboard.writeText('lint96409@gmail.com');status.textContent=english?'Copied! I look forward to your message :)':'複製好了！期待收到你的訊息 :)';}
  catch{status.textContent=english?'You can copy it manually: lint96409@gmail.com':'也可以手動複製：lint96409@gmail.com';}
 });
+
+const researchTabs=[...document.querySelectorAll('[data-research-tab]')];
+if(researchTabs.length){
+ const researchPanels=[...document.querySelectorAll('.research-tab-panel')];
+ const activateResearchTab=(tab,updateHash=false)=>{
+  researchTabs.forEach(item=>{
+   const active=item===tab;
+   item.setAttribute('aria-selected',String(active));
+   item.tabIndex=active?0:-1;
+  });
+  researchPanels.forEach(panel=>panel.hidden=panel.id!==tab.dataset.researchTab);
+  if(updateHash)history.replaceState(null,'','#'+tab.dataset.researchTab);
+ };
+ researchTabs.forEach((tab,index)=>{
+  tab.addEventListener('click',()=>activateResearchTab(tab,true));
+  tab.addEventListener('keydown',event=>{
+   let next=index;
+   if(event.key==='ArrowRight'||event.key==='ArrowDown')next=(index+1)%researchTabs.length;
+   else if(event.key==='ArrowLeft'||event.key==='ArrowUp')next=(index-1+researchTabs.length)%researchTabs.length;
+   else if(event.key==='Home')next=0;
+   else if(event.key==='End')next=researchTabs.length-1;
+   else return;
+   event.preventDefault();researchTabs[next].focus();activateResearchTab(researchTabs[next],true);
+  });
+ });
+ const requested=researchTabs.find(tab=>'#'+tab.dataset.researchTab===location.hash);
+ activateResearchTab(requested||researchTabs[0]);
+}
