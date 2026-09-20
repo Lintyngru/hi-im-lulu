@@ -115,3 +115,25 @@ html[lang=en] h1,html[lang=en] h2,html[lang=en] h3{hyphens:auto;overflow-wrap:an
  .hero-collage{height:440px}
  .page-heading{padding-top:30px}
 }
+
+/* Academic recognition and sports records */
+.recognition-intro{max-width:820px;color:var(--muted);font-size:17px}
+.recognition-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:28px 0 18px}
+.recognition-grid article{min-height:190px;padding:24px;border:1px solid var(--line);border-top:4px solid var(--green);border-radius:18px;background:#fff;display:flex;flex-direction:column}
+.recognition-grid article:nth-child(2){background:#f5eee4;border-top-color:#ce916b}
+.recognition-grid article:nth-child(3){background:#edf3e7;border-top-color:#729e43}
+.recognition-grid span{font-size:12px;font-weight:800;letter-spacing:1.2px;color:var(--green)}
+.recognition-grid strong{display:block;margin:18px 0 8px;color:var(--dark);font-size:22px;line-height:1.45}
+.recognition-grid p{margin-top:auto;color:var(--muted);font-size:14px;line-height:1.65}
+.honor-drawer{border:1px solid var(--line);border-radius:15px;background:#fff;padding:0 22px}
+.honor-drawer summary{cursor:pointer;padding:17px 0;color:var(--dark);font-weight:800}
+.honor-drawer[open] summary{border-bottom:1px solid var(--line)}
+.honor-drawer ul{margin:18px 0 12px;padding-left:22px}
+.honor-drawer li+li{margin-top:8px}
+.honor-drawer p{color:var(--muted);font-size:14px}
+.honor-drawer .text-link{margin:10px 0 20px}
+.sports-record{display:flex;align-items:center;gap:15px;margin:24px 0;padding:18px 20px;border-radius:16px;background:var(--light)}
+.sports-record strong{font-size:44px;line-height:1;color:var(--green)}
+.sports-record span{color:var(--dark);font-weight:700;line-height:1.55}
+@media(max-width:900px){.recognition-grid{grid-template-columns:1fr 1fr}.recognition-grid article:last-child{grid-column:1/-1;min-height:150px}}
+@media(max-width:600px){.recognition-grid{grid-template-columns:1fr;gap:12px}.recognition-grid article,.recognition-grid article:last-child{grid-column:auto;min-height:0;padding:20px}.recognition-grid strong{margin-top:12px}.honor-drawer{padding:0 17px}.sports-record{padding:16px}.sports-record strong{font-size:38px}}
