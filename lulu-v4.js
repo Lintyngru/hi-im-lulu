@@ -1,4 +1,9 @@
 const english=document.documentElement.lang==='en';
+const primaryNav=document.querySelector('.nav');
+const currentNavLink=primaryNav?.querySelector('[aria-current="page"]');
+if(primaryNav&&currentNavLink&&primaryNav.scrollWidth>primaryNav.clientWidth){
+ requestAnimationFrame(()=>{primaryNav.scrollLeft=currentNavLink.offsetLeft-(primaryNav.clientWidth-currentNavLink.offsetWidth)/2;});
+}
 const photoDialog=document.getElementById('photo-dialog');
 let opener;
 document.querySelectorAll('[data-photo]').forEach(button=>button.addEventListener('click',()=>{
