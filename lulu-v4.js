@@ -75,3 +75,23 @@ if(academicTabs.length){
  });
  activateAcademicTab(academicTabs.find(tab=>tab.getAttribute('aria-selected')==='true')||academicTabs[0]);
 }
+
+// 2026.11 — subtle, accessible page motion
+const progress=document.createElement('div');
+progress.className='scroll-progress';
+progress.setAttribute('aria-hidden','true');
+document.body.append(progress);
+const updateProgress=()=>{
+ const max=document.documentElement.scrollHeight-innerHeight;
+ progress.style.width=(max>0?Math.min(100,scrollY/max*100):0)+'%';
+};
+addEventListener('scroll',updateProgress,{passive:true});updateProgress();
+
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
+ const revealItems=[...document.querySelectorAll('main > section, main > div, main > article, main > aside, .project-card, .bento, .latest-card, .ongoing-card')];
+ revealItems.forEach((item,index)=>{item.classList.add('reveal-ready');item.style.transitionDelay=Math.min(index%4*.06,.18)+'s';});
+ const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{
+  if(entry.isIntersecting){entry.target.classList.add('is-visible');observer.unobserve(entry.target);}
+ }),{threshold:.08,rootMargin:'0px 0px -5%'});
+ revealItems.forEach(item=>observer.observe(item));
+}
