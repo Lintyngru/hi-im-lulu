@@ -1,5 +1,20 @@
 const english=document.documentElement.lang==='en';
 const primaryNav=document.querySelector('.nav');
+if(primaryNav){
+ const secondary=[...primaryNav.querySelectorAll('a')].filter(link=>/^(?:education|research|certifications|life)\.html/.test(link.getAttribute('href')||''));
+ if(secondary.length){
+  const more=document.createElement('details');
+  more.className='nav-more';
+  if(secondary.some(link=>link.hasAttribute('aria-current')))more.classList.add('has-current');
+  const summary=document.createElement('summary');
+  summary.textContent=english?'More':'更多';
+  const menu=document.createElement('div');
+  menu.className='nav-more-menu';
+  secondary.forEach(link=>menu.append(link));
+  more.append(summary,menu);
+  primaryNav.append(more);
+ }
+}
 const currentNavLink=primaryNav?.querySelector('[aria-current="page"]');
 if(primaryNav&&currentNavLink&&primaryNav.scrollWidth>primaryNav.clientWidth){
  requestAnimationFrame(()=>{primaryNav.scrollLeft=currentNavLink.offsetLeft-(primaryNav.clientWidth-currentNavLink.offsetWidth)/2;});
@@ -95,3 +110,11 @@ if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
  }),{threshold:.08,rootMargin:'0px 0px -5%'});
  revealItems.forEach(item=>observer.observe(item));
 }
+
+document.querySelectorAll('.archive-heading + .project-grid').forEach(grid=>{
+ const drawer=document.createElement('details');
+ drawer.className='archive-drawer';
+ const summary=document.createElement('summary');
+ summary.textContent=english?'View the complete project archive':'展開全部競賽作品';
+ grid.before(drawer);drawer.append(summary,grid);
+});
