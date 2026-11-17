@@ -15,6 +15,11 @@ if(primaryNav){
   primaryNav.append(more);
  }
 }
+const headerTop=document.querySelector('.header-top');
+const headerActions=document.querySelector('.header-actions');
+if(headerTop&&primaryNav&&headerActions){
+ headerTop.insertBefore(primaryNav,headerActions);
+}
 const currentNavLink=primaryNav?.querySelector('[aria-current="page"]');
 if(primaryNav&&currentNavLink&&primaryNav.scrollWidth>primaryNav.clientWidth){
  requestAnimationFrame(()=>{primaryNav.scrollLeft=currentNavLink.offsetLeft-(primaryNav.clientWidth-currentNavLink.offsetWidth)/2;});
@@ -111,10 +116,16 @@ if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
  revealItems.forEach(item=>observer.observe(item));
 }
 
-document.querySelectorAll('.archive-heading + .project-grid').forEach(grid=>{
+document.querySelectorAll('.project-archive-grid').forEach(grid=>{
  const drawer=document.createElement('details');
  drawer.className='archive-drawer';
  const summary=document.createElement('summary');
  summary.textContent=english?'View the complete project archive':'展開全部競賽作品';
  grid.before(drawer);drawer.append(summary,grid);
+});
+
+document.addEventListener('click',event=>{
+ document.querySelectorAll('.nav-more[open]').forEach(menu=>{
+  if(!menu.contains(event.target))menu.removeAttribute('open');
+ });
 });
