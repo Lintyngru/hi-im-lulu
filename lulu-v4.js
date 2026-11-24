@@ -99,49 +99,32 @@ if(academicTabs.length){
 const competitionTimeline=document.querySelector('[data-competition-list]');
 const competitionEras=[...document.querySelectorAll('[data-competition-era]')];
 if(competitionTimeline&&competitionEras.length){
- const labels=english?['Now & November','Other 2026 results','Jun–Sep 2026','Jan–May 2026','The 2024 start']:['最近動態','2026・其他成果','2026・6—9 月','2026・1—5 月','2024・起點'];
- const tablist=document.createElement('div');
- tablist.className='competition-period-tabs';
- tablist.setAttribute('role','tablist');
- tablist.setAttribute('aria-label',english?'Choose a competition period':'選擇競賽時期');
- const tabs=competitionEras.map((era,index)=>{
-  const tab=document.createElement('button');
-  const tabId=`competition-period-tab-${index}`;
-  const panelId=`competition-period-${index}`;
-  tab.type='button';
-  tab.id=tabId;
-  tab.textContent=labels[index]||String(index+1);
-  tab.setAttribute('role','tab');
-  tab.setAttribute('aria-controls',panelId);
-  era.id=panelId;
-  era.setAttribute('role','tabpanel');
-  era.setAttribute('aria-labelledby',tabId);
-  tablist.append(tab);
-  return tab;
- });
- const activatePeriod=index=>{
-  tabs.forEach((tab,tabIndex)=>{
-   const active=tabIndex===index;
-   tab.setAttribute('aria-selected',String(active));
-   tab.tabIndex=active?0:-1;
-  });
-  competitionEras.forEach((era,eraIndex)=>era.hidden=eraIndex!==index);
+ const [latest,...archiveEras]=competitionEras;
+ competitionEras.forEach(era=>{era.hidden=false;era.removeAttribute('role');era.removeAttribute('aria-labelledby');});
+ latest.classList.add('is-latest');
+ const archive=document.createElement('section');
+ archive.className='competition-year-archive';
+ const heading=document.createElement('div');
+ heading.className='year-archive-heading';
+ heading.innerHTML=english?'<p class="eyebrow">YEARLY ARCHIVE</p><h3>Review the work by year.</h3><p>Open a year only when you want the full record.</p>':'<p class="eyebrow">YEARLY ARCHIVE</p><h3>按年份回顧成果。</h3><p>想看完整紀錄時，再展開那一年。</p>';
+ archive.append(heading);
+ const createYearDrawer=(year,description,eras,count)=>{
+  const drawer=document.createElement('details');
+  drawer.className='year-archive-drawer';
+  const summary=document.createElement('summary');
+  summary.innerHTML=`<span><strong>${year}</strong><small>${description}</small></span><b>${count}</b>`;
+  const body=document.createElement('div');
+  body.className='year-archive-body';
+  eras.forEach(era=>body.append(era));
+  drawer.append(summary,body);
+  return drawer;
  };
- tabs.forEach((tab,index)=>{
-  tab.addEventListener('click',()=>activatePeriod(index));
-  tab.addEventListener('keydown',event=>{
-   let next=index;
-   if(event.key==='ArrowRight')next=(index+1)%tabs.length;
-   else if(event.key==='ArrowLeft')next=(index-1+tabs.length)%tabs.length;
-   else if(event.key==='Home')next=0;
-   else if(event.key==='End')next=tabs.length-1;
-   else return;
-   event.preventDefault();tabs[next].focus();activatePeriod(next);
-  });
- });
- competitionTimeline.before(tablist);
- competitionTimeline.classList.add('is-tabbed');
- activatePeriod(0);
+ archive.append(
+  createYearDrawer('2026',english?'AI, business and social innovation':'AI、商業與社會創新',archiveEras.slice(0,3),14),
+  createYearDrawer('2024',english?'The first brand-planning proposal':'第一次品牌企劃提案',archiveEras.slice(3),1)
+ );
+ competitionTimeline.append(archive);
+ competitionTimeline.classList.add('is-tabbed','is-school-archive');
 }
 
 // 2026.11 — subtle, accessible page motion
@@ -156,7 +139,7 @@ const updateProgress=()=>{
 addEventListener('scroll',updateProgress,{passive:true});updateProgress();
 
 if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
- const revealItems=[...document.querySelectorAll('main > section, main > div, main > article, main > aside, .project-card, .bento, .latest-card, .ongoing-card, .timeline-event')];
+ const revealItems=[...document.querySelectorAll('main > section, main > div, main > article, main > aside, .project-card, .bento, .latest-card, .ongoing-card')];
  revealItems.forEach((item,index)=>{item.classList.add('reveal-ready');item.style.transitionDelay=Math.min(index%4*.06,.18)+'s';});
  const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{
   if(entry.isIntersecting){entry.target.classList.add('is-visible');observer.unobserve(entry.target);}
