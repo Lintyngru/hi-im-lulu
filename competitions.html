@@ -8,8 +8,8 @@
 <meta name="theme-color" content="#183e25">
 <link rel="alternate" hreflang="en" href="en/competitions.html">
 <link rel="icon" href="assets/lulu-mark.svg">
-<link rel="stylesheet" href="lulu-v4.css?v=20261124-timeline">
-<script src="lulu-v4.js?v=20261124-timeline" defer>
+<link rel="stylesheet" href="lulu-v4.css?v=20261124-periods">
+<script src="lulu-v4.js?v=20261124-periods" defer>
 </script>
 </head>
 <body>
@@ -54,9 +54,9 @@
 </section>
 
 <section class="section competition-index" id="timeline">
-<div class="section-heading"><div><p class="eyebrow">COMPETITION TIMELINE</p><h2>先看時間，再看名次。</h2></div><p>把 21 段競賽經歷放回時間裡，也保留每一次結果。你可以直接依名次篩選，或沿著時間軸看作品如何一路長出來。</p></div>
-<div class="rank-summary" aria-label="競賽成果摘要"><article><strong>3</strong><span>第一名</span><small>包含 NASA 台灣場與 AI 座艙創意組</small></article><article><strong>4</strong><span>第二名／銀獎</span><small>AWS、BUILDMODE 與兩項銀獎</small></article><article><strong>5</strong><span>第三名／特別獎</span><small>TapAble、yoxi 與政策提案成果</small></article></div>
-<div class="competition-filters" role="toolbar" aria-label="依競賽結果篩選">
+<div class="section-heading"><div><p class="eyebrow">COMPETITION JOURNEY</p><h2>先看最近，再慢慢往回走。</h2></div><p>不用一次讀完全部。預設只呈現最近動態，想知道更早的作品，再切換到其他時期。</p></div>
+<div class="rank-summary" aria-label="競賽成果摘要" hidden><article><strong>3</strong><span>第一名</span><small>包含 NASA 台灣場與 AI 座艙創意組</small></article><article><strong>4</strong><span>第二名／銀獎</span><small>AWS、BUILDMODE 與兩項銀獎</small></article><article><strong>5</strong><span>第三名／特別獎</span><small>TapAble、yoxi 與政策提案成果</small></article></div>
+<div class="competition-filters" role="toolbar" aria-label="依競賽結果篩選" hidden>
 <button class="is-active" type="button" data-competition-filter="all" aria-pressed="true"><b>21</b><span>全部</span></button>
 <button type="button" data-competition-filter="first" aria-pressed="false"><b>3</b><span>第一名</span></button>
 <button type="button" data-competition-filter="second" aria-pressed="false"><b>4</b><span>第二名</span></button>
@@ -64,7 +64,7 @@
 <button type="button" data-competition-filter="other" aria-pressed="false"><b>7</b><span>入選／其他</span></button>
 <button type="button" data-competition-filter="ongoing" aria-pressed="false"><b>2</b><span>進行中</span></button>
 </div>
-<p class="competition-filter-status" aria-live="polite">目前顯示 <strong data-competition-count>21</strong> 項經歷</p>
+<p class="competition-filter-status" aria-live="polite" hidden>目前顯示 <strong data-competition-count>21</strong> 項經歷</p>
 <div class="competition-timeline" data-competition-list>
 <section class="timeline-era" data-competition-era><header><span>2026</span><h3>近期更新</h3><p>最新結果與仍在進行的挑戰</p></header><div class="timeline-events">
 <article class="timeline-event" data-rank="ongoing"><time>目前</time><div class="event-copy"><div class="event-meta"><span class="badge is-live">進行中 · 前五名階段</span><span>EDGE AI</span></div><h3>ASUS UGen AI League 創新黑客松</h3><p>RobinSave：在 ASUS UGen300 上運行的裝置端語音 AI 詐騙電話模擬器。</p></div></article>
@@ -73,6 +73,8 @@
 <article class="timeline-event is-featured" data-rank="third"><time datetime="2026-11-21">11.21</time><div class="event-copy"><div class="event-meta"><span class="badge is-third">第三名</span><span>AI × CARE</span></div><h3>2026 和泰 AI 黑客松</h3><p>〈yoxi 陪出門〉用跨語言理解、家庭授權代付與接送回報，回應外籍看護陪同長者就醫的交通協作問題。</p><a href="docs/hotai-yoxi-final.pdf" target="_blank" rel="noopener">查看決賽企畫</a></div></article>
 <article class="timeline-event is-featured" data-rank="third"><time datetime="2026-11-20">11.20</time><div class="event-copy"><div class="event-meta"><span class="badge is-third">第三名</span><span>STARTUP</span></div><h3>新竹縣青春靚點子全國學生創業挑戰賽</h3><p>TapAble 從無障礙原型走向創業提案，補上使用者驗證、AI 流程建檔與 B2B2C 模式。</p><a href="#tapable">查看 TapAble 創業歷程</a></div></article>
 <article class="timeline-event is-featured timeline-event-space" data-rank="first"><time datetime="2026-11-14">11.14–15</time><div class="event-copy"><div class="event-meta"><span class="badge is-first">台灣場第一名</span><span>NASA OPEN DATA</span></div><h3>NASA Space Apps Challenge 2026</h3><p>〈Echoes Beyond Earth: Still Answering〉把月球與火星上的機器故事做成可探索、可查證的互動博物館。</p><a href="https://echoes-beyond-earth.onrender.com/" target="_blank" rel="noopener">開啟作品網站</a></div></article>
+</div></section>
+<section class="timeline-era" data-competition-era><header><span>2026</span><h3>其他年度成果</h3><p>日期未細分，但同樣值得留下的作品</p></header><div class="timeline-events">
 <article class="timeline-event" data-rank="first"><time>2026</time><div class="event-copy"><div class="event-meta"><span class="badge is-first">創意組第一名</span><span>AI CABIN</span></div><h3>AI 座艙感知與視覺化 Hackathon</h3><p>TapAble〈警示會找到你的眼睛〉思考座艙資訊如何主動抵達真正需要它的人。</p><a href="#tapable">查看 TapAble</a></div></article>
 <article class="timeline-event" data-rank="third"><time>2026</time><div class="event-copy"><div class="event-meta"><span class="badge is-third">第三名</span><span>LINE AI</span></div><h3>LINE AI 創新創業競賽</h3><p>延伸 AI 與無障礙服務構想，讓公共機台與數位服務更容易被自主使用。</p><a href="#tapable">查看 TapAble</a></div></article>
 <article class="timeline-event" data-rank="third"><time>2026</time><div class="event-copy"><div class="event-meta"><span class="badge is-special">評審特別獎</span><span>PUBLIC POLICY</span></div><h3>2026 公共政策創意提案競賽</h3><p>〈臺北影子工單計畫〉讓青年早期工作經驗有機會被記錄與理解。</p></div></article>

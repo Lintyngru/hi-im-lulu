@@ -96,30 +96,52 @@ if(academicTabs.length){
  activateAcademicTab(academicTabs.find(tab=>tab.getAttribute('aria-selected')==='true')||academicTabs[0]);
 }
 
-const competitionFilters=[...document.querySelectorAll('[data-competition-filter]')];
-if(competitionFilters.length){
- const competitionEvents=[...document.querySelectorAll('.timeline-event[data-rank]')];
- const competitionEras=[...document.querySelectorAll('[data-competition-era]')];
- const competitionCount=document.querySelector('[data-competition-count]');
- const applyCompetitionFilter=filter=>{
-  let visibleCount=0;
-  competitionEvents.forEach(event=>{
-   const visible=filter==='all'||event.dataset.rank===filter;
-   event.hidden=!visible;
-   if(visible)visibleCount+=1;
+const competitionTimeline=document.querySelector('[data-competition-list]');
+const competitionEras=[...document.querySelectorAll('[data-competition-era]')];
+if(competitionTimeline&&competitionEras.length){
+ const labels=english?['Now & November','Other 2026 results','Jun–Sep 2026','Jan–May 2026','The 2024 start']:['最近動態','2026・其他成果','2026・6—9 月','2026・1—5 月','2024・起點'];
+ const tablist=document.createElement('div');
+ tablist.className='competition-period-tabs';
+ tablist.setAttribute('role','tablist');
+ tablist.setAttribute('aria-label',english?'Choose a competition period':'選擇競賽時期');
+ const tabs=competitionEras.map((era,index)=>{
+  const tab=document.createElement('button');
+  const tabId=`competition-period-tab-${index}`;
+  const panelId=`competition-period-${index}`;
+  tab.type='button';
+  tab.id=tabId;
+  tab.textContent=labels[index]||String(index+1);
+  tab.setAttribute('role','tab');
+  tab.setAttribute('aria-controls',panelId);
+  era.id=panelId;
+  era.setAttribute('role','tabpanel');
+  era.setAttribute('aria-labelledby',tabId);
+  tablist.append(tab);
+  return tab;
+ });
+ const activatePeriod=index=>{
+  tabs.forEach((tab,tabIndex)=>{
+   const active=tabIndex===index;
+   tab.setAttribute('aria-selected',String(active));
+   tab.tabIndex=active?0:-1;
   });
-  competitionEras.forEach(era=>{
-   era.hidden=![...era.querySelectorAll('.timeline-event')].some(event=>!event.hidden);
-  });
-  competitionFilters.forEach(button=>{
-   const active=button.dataset.competitionFilter===filter;
-   button.classList.toggle('is-active',active);
-   button.setAttribute('aria-pressed',String(active));
-  });
-  if(competitionCount)competitionCount.textContent=String(visibleCount);
+  competitionEras.forEach((era,eraIndex)=>era.hidden=eraIndex!==index);
  };
- competitionFilters.forEach(button=>button.addEventListener('click',()=>applyCompetitionFilter(button.dataset.competitionFilter)));
- applyCompetitionFilter('all');
+ tabs.forEach((tab,index)=>{
+  tab.addEventListener('click',()=>activatePeriod(index));
+  tab.addEventListener('keydown',event=>{
+   let next=index;
+   if(event.key==='ArrowRight')next=(index+1)%tabs.length;
+   else if(event.key==='ArrowLeft')next=(index-1+tabs.length)%tabs.length;
+   else if(event.key==='Home')next=0;
+   else if(event.key==='End')next=tabs.length-1;
+   else return;
+   event.preventDefault();tabs[next].focus();activatePeriod(next);
+  });
+ });
+ competitionTimeline.before(tablist);
+ competitionTimeline.classList.add('is-tabbed');
+ activatePeriod(0);
 }
 
 // 2026.11 — subtle, accessible page motion
