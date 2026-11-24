@@ -96,6 +96,32 @@ if(academicTabs.length){
  activateAcademicTab(academicTabs.find(tab=>tab.getAttribute('aria-selected')==='true')||academicTabs[0]);
 }
 
+const competitionFilters=[...document.querySelectorAll('[data-competition-filter]')];
+if(competitionFilters.length){
+ const competitionEvents=[...document.querySelectorAll('.timeline-event[data-rank]')];
+ const competitionEras=[...document.querySelectorAll('[data-competition-era]')];
+ const competitionCount=document.querySelector('[data-competition-count]');
+ const applyCompetitionFilter=filter=>{
+  let visibleCount=0;
+  competitionEvents.forEach(event=>{
+   const visible=filter==='all'||event.dataset.rank===filter;
+   event.hidden=!visible;
+   if(visible)visibleCount+=1;
+  });
+  competitionEras.forEach(era=>{
+   era.hidden=![...era.querySelectorAll('.timeline-event')].some(event=>!event.hidden);
+  });
+  competitionFilters.forEach(button=>{
+   const active=button.dataset.competitionFilter===filter;
+   button.classList.toggle('is-active',active);
+   button.setAttribute('aria-pressed',String(active));
+  });
+  if(competitionCount)competitionCount.textContent=String(visibleCount);
+ };
+ competitionFilters.forEach(button=>button.addEventListener('click',()=>applyCompetitionFilter(button.dataset.competitionFilter)));
+ applyCompetitionFilter('all');
+}
+
 // 2026.11 — subtle, accessible page motion
 const progress=document.createElement('div');
 progress.className='scroll-progress';
@@ -108,7 +134,7 @@ const updateProgress=()=>{
 addEventListener('scroll',updateProgress,{passive:true});updateProgress();
 
 if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
- const revealItems=[...document.querySelectorAll('main > section, main > div, main > article, main > aside, .project-card, .bento, .latest-card, .ongoing-card')];
+ const revealItems=[...document.querySelectorAll('main > section, main > div, main > article, main > aside, .project-card, .bento, .latest-card, .ongoing-card, .timeline-event')];
  revealItems.forEach((item,index)=>{item.classList.add('reveal-ready');item.style.transitionDelay=Math.min(index%4*.06,.18)+'s';});
  const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{
   if(entry.isIntersecting){entry.target.classList.add('is-visible');observer.unobserve(entry.target);}
